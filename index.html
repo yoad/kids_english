@@ -294,6 +294,7 @@ body { direction: rtl; text-align: center; }
 .flashcard-counter {
   font-size: 16px;
   color: #aaa;
+  direction: ltr;
 }
 
 .learned-badge {
@@ -682,9 +683,9 @@ body { direction: rtl; text-align: center; }
         </div>
         <button class="btn-speak" onclick="speakCurrent()">🔊</button>
         <div class="flashcard-nav">
-            <button class="btn-nav" onclick="prevCard()">◀</button>
+            <button class="btn-nav" onclick="prevCard()">▶</button>
             <div class="flashcard-counter" id="flashcard-counter"></div>
-            <button class="btn-nav" onclick="nextCard()">▶</button>
+            <button class="btn-nav" onclick="nextCard()">◀</button>
         </div>
     </div>
     <div id="screen-games" class="screen">
