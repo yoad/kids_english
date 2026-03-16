@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המשחק של אלון ורומי</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .profile-selector {
+            margin-bottom: 20px;
+        }
+        button.profile-btn {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        #btn-alon { background-color: #4CAF50; color: white; }
+        #btn-romi { background-color: #FF1493; color: white; }
+        .active-profile {
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            transform: scale(1.1);
+        }
+        #game-area {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none; /* Hidden until profile is selected */
+        }
+        #word-display {
+            font-size: 48px;
+            color: #2c3e50;
+            margin: 20px 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        #speaker-btn {
+            font-size: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        #speaker-btn:active { transform: scale(0.9); }
+        .options-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .option-btn {
+            font-size: 50px;
+            background-color: #eef2f3;
+            border: 3px solid #bdc3c7;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-btn:hover { background-color: #d5dbdb; }
+        #feedback {
+            font-size: 28px;
+            margin-top: 20px;
+            min-height: 40px;
+            font-weight: bold;
+        }
+        .correct { color: #27ae60; }
+        .wrong { color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+    <h1>משחק האנגלית של אלון ורומי 🌟</h1>
+    
+    <div class="profile-selector">
+        <h2>מי משחק עכשיו?</h2>
+        <button id="btn-alon" class="profile-btn" onclick="setProfile('alon')">🚀 אלון</button>
+        <button id="btn-romi" class="profile-btn" onclick="setProfile('romi')">🦄 רומי</button>
+    </div>
+
+    <div id="game-area">
+        <button id="speaker-btn" onclick="speakCurrentWord()" title="השמע מילה">🔊</button>
+        <div id="word-display">WORD</div>
+        <div class="options-container" id="options">
+            <!-- Options will be generated here -->
+        </div>
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        const words = {
+            alon: [
+                { word: "Robot", emoji: "🤖" },
+                { word: "Rocket", emoji: "🚀" },
+                { word: "Astronaut", emoji: "👨‍🚀" },
+                { word: "Red Bike", emoji: "🚲" },
+                { word: "Moon", emoji: "🌙" },
+                { word: "Star", emoji: "⭐" },
+                { word: "Car", emoji: "🚗" },
+                { word: "Sun", emoji: "☀️" }
+            ],
+            romi: [
+                { word: "Dog", emoji: "🐶" },
+                { word: "Cat", emoji: "🐱" },
+                { word: "Apple", emoji: "🍎" },
+                { word: "Banana", emoji: "🍌" },
+                { word: "Ball", emoji: "⚽" },
+                { word: "Flower", emoji: "🌸" },
+                { word: "Bird", emoji: "🐦" },
+                { word: "Sun", emoji: "☀️" }
+            ]
+        };
+
+        let currentProfile = '';
+        let currentItem = {};
+
+        function setProfile(profile) {
+            currentProfile = profile;
+            document.getElementById('game-area').style.display = 'block';
+            
+            // Highlight active button
+            document.getElementById('btn-alon').classList.remove('active-profile');
+            document.getElementById('btn-romi').classList.remove('active-profile');
+            document.getElementById(`btn-${profile}`).classList.add('active-profile');
+            
+            // Clear feedback
+            document.getElementById('feedback').innerText = '';
+            
+            loadNewQuestion();
+        }
+
+        function loadNewQuestion() {
+            const list = words[currentProfile];
+            // Pick a random word
+            currentItem = list[Math.floor(Math.random() * list.length)];
+            
+            // Update display
+            document.getElementById('word-display').innerText = currentItem.word;
+            
+            // Get 2 other random emojis as wrong answers
+            let options = [currentItem];
+            while(options.length < 3) {
+                let randomWrong = list[Math.floor(Math.random() * list.length)];
+                if(!options.includes(randomWrong)) {
+                    options.push(randomWrong);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            // Render buttons
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt.emoji;
+                btn.onclick = () => checkAnswer(opt.word);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Read the word out loud after a short delay
+            setTimeout(speakCurrentWord, 500);
+            document.getElementById('feedback').innerText = '';
+        }
+
+        function checkAnswer(selectedWord) {
+            const feedback = document.getElementById('feedback');
+            if(selectedWord === currentItem.word) {
+                feedback.innerText = "כל הכבוד! 🎉";
+                feedback.className = 'correct';
+                // Play sound or cheer (optional)
+                setTimeout(loadNewQuestion, 2000); // Wait 2 seconds and load next
+            } else {
+                feedback.innerText = "אופס, נסה שוב! 😉";
+                feedback.className = 'wrong';
+            }
+        }
+
+        function speakCurrentWord() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(currentItem.word);
+                utterance.lang = 'en-US'; // English pronunciation
+                utterance.rate = 0.8; // Speak slightly slower for kids
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+
+</body>
+</html>
