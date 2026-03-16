@@ -827,10 +827,44 @@ let memoryGame = { cards: [], flipped: [], matched: 0, attempts: 0, busy: false,
 // ===== HELPERS =====
 function shuffle(a) { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
 function getAllWords() { const r=[]; for(const c in WORDS) WORDS[c].forEach((w,i)=>r.push({...w,cat:c,idx:i})); return r; }
+const audioCache = {};
+
 function speak(text) {
-  if(!('speechSynthesis' in window)) return;
+  const word = text.toLowerCase().trim();
+  if (audioCache[word]) {
+    const audio = new Audio(audioCache[word]);
+    audio.play().catch(() => speakFallback(text));
+    return;
+  }
+
+  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    .then(r => r.json())
+    .then(data => {
+      if (Array.isArray(data) && data[0]?.phonetics) {
+        const phonetic = data[0].phonetics.find(p => p.audio && p.audio.trim() !== '');
+        if (phonetic?.audio) {
+          audioCache[word] = phonetic.audio;
+          const audio = new Audio(phonetic.audio);
+          audio.play().catch(() => speakFallback(text));
+          return;
+        }
+      }
+      speakFallback(text);
+    })
+    .catch(() => speakFallback(text));
+}
+
+function speakFallback(text) {
+  if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=0.8;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.8;
+  const voices = window.speechSynthesis.getVoices();
+  const goodVoice = voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) || 
+                    voices.find(v => v.name.includes('Samantha') && v.lang.startsWith('en')) ||
+                    voices.find(v => v.lang.startsWith('en'));
+  if (goodVoice) u.voice = goodVoice;
   window.speechSynthesis.speak(u);
 }
 
