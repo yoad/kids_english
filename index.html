@@ -830,28 +830,9 @@ function getAllWords() { const r=[]; for(const c in WORDS) WORDS[c].forEach((w,i
 const audioCache = {};
 
 function speak(text) {
-  const word = text.toLowerCase().trim();
-  if (audioCache[word]) {
-    const audio = new Audio(audioCache[word]);
-    audio.play().catch(() => speakFallback(text));
-    return;
-  }
-
-  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-    .then(r => r.json())
-    .then(data => {
-      if (Array.isArray(data) && data[0]?.phonetics) {
-        const phonetic = data[0].phonetics.find(p => p.audio && p.audio.trim() !== '');
-        if (phonetic?.audio) {
-          audioCache[word] = phonetic.audio;
-          const audio = new Audio(phonetic.audio);
-          audio.play().catch(() => speakFallback(text));
-          return;
-        }
-      }
-      speakFallback(text);
-    })
-    .catch(() => speakFallback(text));
+  // Use speechSynthesis directly — reliable for all words,
+  // no unwanted articles ("a bus"), and handles multi-word entries ("Ice Cream").
+  speakFallback(text);
 }
 
 function speakFallback(text) {
