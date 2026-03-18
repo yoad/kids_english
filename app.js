@@ -5,7 +5,8 @@ const WORDS = {
     {word:'Bird',hebrew:'ציפור',emoji:'🐦'},{word:'Fish',hebrew:'דג',emoji:'🐟'},
     {word:'Horse',hebrew:'סוס',emoji:'🐴'},{word:'Cow',hebrew:'פרה',emoji:'🐄'},
     {word:'Rabbit',hebrew:'ארנב',emoji:'🐰'},{word:'Bear',hebrew:'דוב',emoji:'🐻'},
-    {word:'Lion',hebrew:'אריה',emoji:'🦁'},{word:'Monkey',hebrew:'קוף',emoji:'🐵'}
+    {word:'Lion',hebrew:'אריה',emoji:'🦁'},{word:'Monkey',hebrew:'קוף',emoji:'🐵'},
+    {word:'Elephant',hebrew:'פיל',emoji:'🐘'}
   ],
   food: [
     {word:'Apple',hebrew:'תפוח',emoji:'🍎'},{word:'Banana',hebrew:'בננה',emoji:'🍌'},
@@ -53,7 +54,9 @@ const WORDS = {
   transport: [
     {word:'Car',hebrew:'מכונית',emoji:'🚗'},{word:'Bus',hebrew:'אוטובוס',emoji:'🚌'},
     {word:'Airplane',hebrew:'מטוס',emoji:'✈️'},{word:'Bike',hebrew:'אופניים',emoji:'🚲'},
-    {word:'Train',hebrew:'רכבת',emoji:'🚂'},{word:'Boat',hebrew:'סירה',emoji:'⛵'}
+    {word:'Train',hebrew:'רכבת',emoji:'🚂'},{word:'Boat',hebrew:'סירה',emoji:'⛵'},
+    {word:'Fire Truck',hebrew:'כבאית',emoji:'🚒'},{word:'Ambulance',hebrew:'אמבולנס',emoji:'🚑'},
+    {word:'Police Car',hebrew:'ניידת משטרה',emoji:'🚓'}
   ],
   nature: [
     {word:'Sun',hebrew:'שמש',emoji:'☀️'},{word:'Moon',hebrew:'ירח',emoji:'🌙'},
@@ -65,6 +68,21 @@ const WORDS = {
     {word:'Book',hebrew:'ספר',emoji:'📖'},{word:'Pen',hebrew:'עט',emoji:'🖊️'},
     {word:'Bag',hebrew:'תיק',emoji:'🎒'},{word:'Teacher',hebrew:'מורה',emoji:'👩‍🏫'},
     {word:'Friend',hebrew:'חבר',emoji:'🤝'}
+  ],
+  alphabet: [
+    {word:'A',hebrew:'אי',emoji:'🅰️'},{word:'B',hebrew:'בי',emoji:'🅱️'},
+    {word:'C',hebrew:'סי',emoji:'©️'},{word:'D',hebrew:'די',emoji:'🇩'},
+    {word:'E',hebrew:'אי',emoji:'🇪'},{word:'F',hebrew:'אף',emoji:'🇫'},
+    {word:'G',hebrew:'ג׳י',emoji:'🇬'},{word:'H',hebrew:'אייצ׳',emoji:'🇭'},
+    {word:'I',hebrew:'אי',emoji:'ℹ️'},{word:'J',hebrew:'ג׳יי',emoji:'🇯'},
+    {word:'K',hebrew:'קיי',emoji:'🇰'},{word:'L',hebrew:'אל',emoji:'🇱'},
+    {word:'M',hebrew:'אם',emoji:'Ⓜ️'},{word:'N',hebrew:'אן',emoji:'🇳'},
+    {word:'O',hebrew:'או',emoji:'⭕'},{word:'P',hebrew:'פי',emoji:'🅿️'},
+    {word:'Q',hebrew:'קיו',emoji:'🇶'},{word:'R',hebrew:'אר',emoji:'🇷'},
+    {word:'S',hebrew:'אס',emoji:'🇸'},{word:'T',hebrew:'טי',emoji:'🇹'},
+    {word:'U',hebrew:'יו',emoji:'🇺'},{word:'V',hebrew:'וי',emoji:'🇻'},
+    {word:'W',hebrew:'דבליו',emoji:'🇼'},{word:'X',hebrew:'אקס',emoji:'❌'},
+    {word:'Y',hebrew:'וואי',emoji:'🇾'},{word:'Z',hebrew:'זד',emoji:'🇿'}
   ]
 };
 
@@ -74,7 +92,7 @@ const CATEGORIES = [
   {id:'family',name:'משפחה',emoji:'👨‍👩‍👧‍👦'},{id:'body',name:'גוף',emoji:'🫀'},
   {id:'clothes',name:'בגדים',emoji:'👕'},{id:'house',name:'בית',emoji:'🏠'},
   {id:'transport',name:'תחבורה',emoji:'🚗'},{id:'nature',name:'טבע',emoji:'🌿'},
-  {id:'school',name:'בית ספר',emoji:'📚'}
+  {id:'school',name:'בית ספר',emoji:'📚'},{id:'alphabet',name:'אלפבית',emoji:'🔤'}
 ];
 
 const BADGES = [
