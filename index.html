@@ -624,12 +624,12 @@ body { direction: rtl; text-align: center; }
         <div class="profiles-container">
             <div class="profile-card alon-card" onclick="selectProfile('alon')">
                 <div class="profile-emoji">🚀</div>
-                <div class="profile-name">אלון</div>
+                <div class="profile-name">אלון - Alon</div>
                 <div class="profile-stars" id="alon-stars">⭐ 0</div>
             </div>
             <div class="profile-card romi-card" onclick="selectProfile('romi')">
                 <div class="profile-emoji">🦄</div>
-                <div class="profile-name">רומי</div>
+                <div class="profile-name">רומי - Romi</div>
                 <div class="profile-stars" id="romi-stars">⭐ 0</div>
             </div>
         </div>
@@ -666,14 +666,14 @@ body { direction: rtl; text-align: center; }
     <div id="screen-categories" class="screen">
         <div class="top-bar">
             <div class="top-bar-title">📚 בחר קטגוריה</div>
-            <button class="btn-back" onclick="showScreen('screen-home')">🔙</button>
+            <button class="btn-back" onclick="showScreen('screen-home')">🏠</button>
         </div>
         <div class="categories-grid" id="categories-grid"></div>
     </div>
     <div id="screen-learn" class="screen">
         <div class="top-bar">
             <div class="learn-category-title" id="learn-category-title"></div>
-            <button class="btn-back" onclick="showScreen('screen-categories')">🔙</button>
+            <div><button class="btn-back" onclick="showScreen('screen-categories')">🔙</button><button class="btn-back" onclick="showScreen('screen-home')">🏠</button></div>
         </div>
         <div class="flashcard" id="flashcard">
             <div class="learned-badge" id="learned-badge" style="display:none">⭐</div>
@@ -691,14 +691,14 @@ body { direction: rtl; text-align: center; }
     <div id="screen-games" class="screen">
         <div class="top-bar">
             <div class="top-bar-title">🎮 בחר משחק</div>
-            <button class="btn-back" onclick="showScreen('screen-home')">🔙</button>
+            <button class="btn-back" onclick="showScreen('screen-home')">🏠</button>
         </div>
         <div class="games-grid" id="games-grid"></div>
     </div>
     <div id="screen-emoji-match" class="screen">
         <div class="top-bar">
             <div class="game-score" id="emoji-score">⭐ 0</div>
-            <button class="btn-back" onclick="showScreen('screen-games')">🔙</button>
+            <div><button class="btn-back" onclick="showScreen('screen-games')">🔙</button><button class="btn-back" onclick="showScreen('screen-home')">🏠</button></div>
         </div>
         <button class="btn-speak" onclick="speakGameWord()">🔊</button>
         <div class="game-word-display" id="emoji-word"></div>
@@ -709,7 +709,7 @@ body { direction: rtl; text-align: center; }
     <div id="screen-spelling" class="screen">
         <div class="top-bar">
             <div class="game-score" id="spelling-score">⭐ 0</div>
-            <button class="btn-back" onclick="showScreen('screen-games')">🔙</button>
+            <div><button class="btn-back" onclick="showScreen('screen-games')">🔙</button><button class="btn-back" onclick="showScreen('screen-home')">🏠</button></div>
         </div>
         <div class="spelling-hint" id="spelling-hint"></div>
         <button class="btn-speak" onclick="speakSpellingWord()">🔊</button>
@@ -722,7 +722,7 @@ body { direction: rtl; text-align: center; }
     <div id="screen-memory" class="screen">
         <div class="top-bar">
             <div class="game-score" id="memory-score">ניסיונות: 0</div>
-            <button class="btn-back" onclick="showScreen('screen-games')">🔙</button>
+            <div><button class="btn-back" onclick="showScreen('screen-games')">🔙</button><button class="btn-back" onclick="showScreen('screen-home')">🏠</button></div>
         </div>
         <div class="memory-grid" id="memory-grid"></div>
         <div class="game-feedback" id="memory-feedback"></div>
@@ -799,6 +799,19 @@ const WORDS = {
     {word:'Bag',hebrew:'תיק',emoji:'🎒'},{word:'Teacher',hebrew:'מורה',emoji:'👩‍🏫'},
     {word:'Friend',hebrew:'חבר',emoji:'🤝'}
   ],
+  furniture: [
+    {word:'Table',hebrew:'שולחן',emoji:'🪑'},{word:'Sofa',hebrew:'ספה',emoji:'🛋️'},
+    {word:'Lamp',hebrew:'מנורה',emoji:'💡'},{word:'Shelf',hebrew:'מדף',emoji:'📚'},
+    {word:'Desk',hebrew:'שולחן כתיבה',emoji:'🗄️'},{word:'Mirror',hebrew:'מראה',emoji:'🪞'},
+    {word:'Clock',hebrew:'שעון',emoji:'🕐'},{word:'Closet',hebrew:'ארון',emoji:'🚪'}
+  ],
+  household: [
+    {word:'Cup',hebrew:'כוס',emoji:'🥤'},{word:'Plate',hebrew:'צלחת',emoji:'🍽️'},
+    {word:'Spoon',hebrew:'כפית',emoji:'🥄'},{word:'Fork',hebrew:'מזלג',emoji:'🍴'},
+    {word:'Knife',hebrew:'סכין',emoji:'🔪'},{word:'Pot',hebrew:'סיר',emoji:'🍲'},
+    {word:'Bowl',hebrew:'קערה',emoji:'🥣'},{word:'Broom',hebrew:'מטאטא',emoji:'🧹'},
+    {word:'Towel',hebrew:'מגבת',emoji:'🧻'},{word:'Soap',hebrew:'סבון',emoji:'🧼'}
+  ],
   alphabet: [
     {word:'A',hebrew:'אי',emoji:'🅰️'},{word:'B',hebrew:'בי',emoji:'🅱️'},
     {word:'C',hebrew:'סי',emoji:'©️'},{word:'D',hebrew:'די',emoji:'🇩'},
@@ -822,7 +835,8 @@ const CATEGORIES = [
   {id:'family',name:'משפחה',emoji:'👨‍👩‍👧‍👦'},{id:'body',name:'גוף',emoji:'🫀'},
   {id:'clothes',name:'בגדים',emoji:'👕'},{id:'house',name:'בית',emoji:'🏠'},
   {id:'transport',name:'תחבורה',emoji:'🚗'},{id:'nature',name:'טבע',emoji:'🌿'},
-  {id:'school',name:'בית ספר',emoji:'📚'},{id:'alphabet',name:'אלפבית',emoji:'🔤'}
+  {id:'school',name:'בית ספר',emoji:'📚'},{id:'furniture',name:'ריהוט',emoji:'🛋️'},
+  {id:'household',name:'כלי בית',emoji:'🍽️'},{id:'alphabet',name:'אלפבית',emoji:'🔤'}
 ];
 
 const BADGES = [
@@ -942,7 +956,7 @@ function selectProfile(profile) {
 function setupHome() {
   const isAlon = state.profile==='alon';
   document.getElementById('home-avatar').textContent = isAlon?'🚀':'🦄';
-  document.getElementById('home-name').textContent = isAlon?'אלון':'רומי';
+  document.getElementById('home-name').textContent = isAlon?'אלון - Alon':'רומי - Romi';
   const p=getProgress();
   updateStarsDisplay(p.stars);
   const total=getTotalWords(), learned=getTotalLearned();
@@ -1018,7 +1032,7 @@ function setupGames() {
   const learned=getTotalLearned();
   const games=[
     {id:'emoji-match',icon:'🎯',name:'התאם אימוג\'י',desc:'מצא את האימוג\'י הנכון',unlock:0},
-    {id:'spelling',icon:'✏️',name:'אית את המילה',desc:state.profile==='romi'?'מצא את האות הראשונה':'סדר את האותיות',unlock:10},
+    {id:'spelling',icon:'✏️',name:'מצא את האות',desc:'מצא את האות הראשונה',unlock:10},
     {id:'memory',icon:'🧠',name:'משחק זיכרון',desc:'מצא את הזוגות',unlock:15}
   ];
   games.forEach(g=>{
@@ -1107,9 +1121,7 @@ function initSpelling() {
     p.learned[cat].forEach(idx=>{ if(WORDS[cat][idx]) learned.push(WORDS[cat][idx]); });
   }
   if(learned.length<3){ learned.push(...getAllWords().slice(0,5)); }
-  // For Romi, use short words only
-  let pool = state.profile==='romi' ? learned.filter(w=>w.word.length<=5) : learned;
-  if(pool.length<3) pool=learned;
+  let pool = learned;
   spellingGame={words:shuffle(pool).slice(0,8), round:0, score:0, total:Math.min(8,pool.length), filled:[], current:null};
   showScreen('screen-spelling');
   showSpellingRound();
@@ -1125,10 +1137,10 @@ function showSpellingRound() {
   document.getElementById('spelling-feedback').className='game-feedback';
   setTimeout(()=>speak(w.word),300);
 
-  if(state.profile==='romi') setupRomiSpelling(w);
-  else setupAlonSpelling(w);
+  // Both kids get the easy "pick first letter" mode
+  setupEasySpelling(w);
 }
-function setupRomiSpelling(w) {
+function setupEasySpelling(w) {
   // Show the word, ask to pick the first letter
   const slots=document.getElementById('spelling-slots');
   slots.innerHTML=`<div style="font-size:32px;font-weight:700;direction:ltr;letter-spacing:4px">${w.word}</div>`;
@@ -1160,65 +1172,7 @@ function setupRomiSpelling(w) {
     choices.appendChild(btn);
   });
 }
-function setupAlonSpelling(w) {
-  document.querySelector('.btn-undo').style.display='';
-  const word=w.word.toUpperCase().replace(/\s/g,'');
-  const slots=document.getElementById('spelling-slots'); slots.innerHTML='';
-  for(let i=0;i<word.length;i++){
-    const s=document.createElement('div'); s.className='spell-slot'; s.dataset.index=i; slots.appendChild(s);
-  }
-  const letters=shuffle(word.split(''));
-  // Add 2-3 random distractor letters
-  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  for(let i=0;i<2;i++) letters.push(alpha[Math.floor(Math.random()*26)]);
-  const choices=document.getElementById('letter-choices'); choices.innerHTML='';
-  shuffle(letters).forEach((l,i)=>{
-    const btn=document.createElement('button');
-    btn.className='letter-btn'; btn.textContent=l; btn.dataset.li=i;
-    btn.onclick=()=>pickLetter(btn,l);
-    choices.appendChild(btn);
-  });
-}
-function pickLetter(btn,l) {
-  const w=spellingGame.current.word.toUpperCase().replace(/\s/g,'');
-  if(spellingGame.filled.length>=w.length) return;
-  spellingGame.filled.push({letter:l,btnIdx:btn.dataset.li});
-  btn.classList.add('used');
-  const slotIdx=spellingGame.filled.length-1;
-  const slot=document.querySelectorAll('.spell-slot')[slotIdx];
-  slot.textContent=l; slot.classList.add('filled');
-  // Check if complete
-  if(spellingGame.filled.length===w.length){
-    const attempt=spellingGame.filled.map(f=>f.letter).join('');
-    if(attempt===w){
-      document.getElementById('spelling-feedback').textContent='מעולה! 🎉';
-      document.getElementById('spelling-feedback').className='game-feedback correct';
-      spellingGame.score+=3;
-      if(window.confetti) confetti({particleCount:80,spread:60,origin:{y:0.7}});
-      setTimeout(()=>{spellingGame.round++;showSpellingRound();},1500);
-    } else {
-      document.getElementById('spelling-feedback').textContent='לא בדיוק, נסה שוב! 😊';
-      document.getElementById('spelling-feedback').className='game-feedback wrong';
-      document.querySelectorAll('.spell-slot').forEach(s=>{s.classList.add('wrong-shake');});
-      setTimeout(()=>{
-        // Reset
-        spellingGame.filled=[];
-        document.querySelectorAll('.spell-slot').forEach(s=>{s.textContent='';s.classList.remove('filled','wrong-shake');});
-        document.querySelectorAll('.letter-btn').forEach(b=>b.classList.remove('used'));
-        document.getElementById('spelling-feedback').textContent='';
-      },1000);
-    }
-  }
-}
-function undoLetter() {
-  if(spellingGame.filled.length===0) return;
-  const last=spellingGame.filled.pop();
-  const slotIdx=spellingGame.filled.length;
-  const slot=document.querySelectorAll('.spell-slot')[slotIdx];
-  slot.textContent=''; slot.classList.remove('filled');
-  const btn=document.querySelector(`.letter-btn[data-li="${last.btnIdx}"]`);
-  if(btn) btn.classList.remove('used');
-}
+function undoLetter() { /* no longer needed but kept for compat */ }
 function speakSpellingWord() { speak(spellingGame.current?.word||''); }
 function endSpelling() {
   const p=getProgress(); p.gamesPlayed++; addStars(spellingGame.score); saveProgress(p); checkBadges();
@@ -1233,7 +1187,7 @@ function endSpelling() {
 
 // ===== MEMORY GAME =====
 function initMemory() {
-  const pairs = state.profile==='romi' ? 4 : 6;
+  const pairs = 6;
   const learned=[]; const p=getProgress();
   for(const cat in p.learned) p.learned[cat].forEach(idx=>{if(WORDS[cat][idx]) learned.push(WORDS[cat][idx]);});
   if(learned.length<pairs){ const all=getAllWords(); while(learned.length<pairs) learned.push(all[learned.length]); }
