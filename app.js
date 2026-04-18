@@ -71,7 +71,7 @@ const WORDS = {
     {word:'Friend',hebrew:'חבר',emoji:'🤝'}
   ],
   furniture: [
-    {word:'Table',hebrew:'שולחן',emoji:'🪑'},{word:'Sofa',hebrew:'ספה',emoji:'🛋️'},
+    {word:'Table',hebrew:'שולחן',emoji:'🍽️'},{word:'Sofa',hebrew:'ספה',emoji:'🛋️'},
     {word:'Lamp',hebrew:'מנורה',emoji:'💡'},{word:'Shelf',hebrew:'מדף',emoji:'📚'},
     {word:'Desk',hebrew:'שולחן כתיבה',emoji:'🗄️'},{word:'Mirror',hebrew:'מראה',emoji:'🪞'},
     {word:'Clock',hebrew:'שעון',emoji:'🕐'},{word:'Closet',hebrew:'ארון',emoji:'🚪'}
