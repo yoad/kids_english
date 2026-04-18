@@ -71,10 +71,10 @@ const WORDS = {
     {word:'Friend',hebrew:'חבר',emoji:'🤝'}
   ],
   furniture: [
-    {word:'Table',hebrew:'שולחן',emoji:'🍽️'},{word:'Sofa',hebrew:'ספה',emoji:'🛋️'},
-    {word:'Lamp',hebrew:'מנורה',emoji:'💡'},{word:'Shelf',hebrew:'מדף',emoji:'📚'},
-    {word:'Desk',hebrew:'שולחן כתיבה',emoji:'🗄️'},{word:'Mirror',hebrew:'מראה',emoji:'🪞'},
-    {word:'Clock',hebrew:'שעון',emoji:'🕐'},{word:'Closet',hebrew:'ארון',emoji:'🚪'}
+    {word:'Table',hebrew:'שולחן',image:'images/table.png'},{word:'Sofa',hebrew:'ספה',emoji:'🛋️'},
+    {word:'Lamp',hebrew:'מנורה',emoji:'💡'},{word:'Shelf',hebrew:'מדף',image:'images/shelf.png'},
+    {word:'Desk',hebrew:'שולחן כתיבה',image:'images/desk.png'},{word:'Mirror',hebrew:'מראה',emoji:'🪞'},
+    {word:'Clock',hebrew:'שעון',emoji:'🕐'},{word:'Closet',hebrew:'ארון',image:'images/closet.png'}
   ],
   household: [
     {word:'Cup',hebrew:'כוס',emoji:'🥤'},{word:'Plate',hebrew:'צלחת',emoji:'🍽️'},
@@ -130,6 +130,7 @@ let memoryGame = { cards: [], flipped: [], matched: 0, attempts: 0, busy: false,
 // ===== HELPERS =====
 function shuffle(a) { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
 function getAllWords() { const r=[]; for(const c in WORDS) WORDS[c].forEach((w,i)=>r.push({...w,cat:c,idx:i})); return r; }
+function renderEmoji(item) { if(item.image) return `<img src="${item.image}" alt="${item.word}">`; return item.emoji; }
 function speak(text) {
   if(!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
@@ -254,7 +255,7 @@ function openCategory(catId) {
 function showFlashcard() {
   const words=WORDS[learnState.category];
   const w=words[learnState.index];
-  document.getElementById('flashcard-emoji').textContent=w.emoji;
+  document.getElementById('flashcard-emoji').innerHTML=renderEmoji(w);
   document.getElementById('flashcard-word').textContent=w.word;
   document.getElementById('flashcard-hebrew').textContent=w.hebrew;
   document.getElementById('flashcard-counter').textContent=`${learnState.index+1} / ${words.length}`;
@@ -330,7 +331,7 @@ function showEmojiRound() {
   opts.forEach(o=>{
     const btn=document.createElement('button');
     btn.className='emoji-option';
-    btn.textContent=o.emoji;
+    btn.innerHTML=renderEmoji(o);
     btn.onclick=()=>checkEmojiAnswer(btn, o.word===w.word);
     container.appendChild(btn);
   });
@@ -386,7 +387,7 @@ function showSpellingRound() {
   if(spellingGame.round>=spellingGame.total){ endSpelling(); return; }
   const w=spellingGame.words[spellingGame.round];
   spellingGame.current=w; spellingGame.filled=[];
-  document.getElementById('spelling-hint').textContent=w.emoji;
+  document.getElementById('spelling-hint').innerHTML=renderEmoji(w);
   document.getElementById('spelling-score').textContent=`⭐ ${spellingGame.score}`;
   document.getElementById('spelling-round').textContent=`${spellingGame.round+1} / ${spellingGame.total}`;
   document.getElementById('spelling-feedback').textContent='';
@@ -450,7 +451,7 @@ function initMemory() {
   const selected=shuffle(learned).slice(0,pairs);
   const cards=[];
   selected.forEach((w,i)=>{
-    cards.push({id:i,type:'emoji',content:w.emoji,word:w.word,pairId:i});
+    cards.push({id:i,type:'emoji',content:w.image?`<img src="${w.image}" alt="${w.word}">`:w.emoji,word:w.word,pairId:i});
     cards.push({id:i,type:'word',content:w.word,pairId:i});
   });
   memoryGame={cards:shuffle(cards),flipped:[],matched:0,attempts:0,busy:false,pairs:pairs};
